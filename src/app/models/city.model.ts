@@ -18,17 +18,14 @@ export class City {
         }
     }
     
-    // Gets city's x coordinate
     public get X(): number{
         return this.x;
     }
     
-    // Gets city's y coordinate
     public get Y(): number{
         return this.y;
     }
     
-    // Gets the distance to given city
     public distanceTo(city: City): number{
         let xDistance = Math.abs(this.X - city.X);
         let  yDistance = Math.abs(this.Y - city.Y);

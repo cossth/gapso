@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GeneticService } from './services/genetic.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  title = 'gapso';
+  constructor(ga: GeneticService){
+    
+  }
 }
