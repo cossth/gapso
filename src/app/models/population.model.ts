@@ -1,47 +1,46 @@
-
-public class Population {
+export class Population {
 
     // Holds population of tours
-    Tour[] tours;
+    tours: Tour[] = [];
 
     // Construct a population
-    public Population(int populationSize, boolean initialise) {
-        tours = new Tour[populationSize];
+    public Population(populationSize: number, initialise: boolean) {
+        this.tours = new Tour[populationSize];
         // If we need to initialise a population of tours do so
         if (initialise) {
             // Loop and create individuals
-            for (int i = 0; i < populationSize(); i++) {
-                Tour newTour = new Tour();
+            for (let i = 0; i < this.populationSize(); i++) {
+                let newTour = new Tour();
                 newTour.generateIndividual();
-                saveTour(i, newTour);
+                this.saveTour(i, newTour);
             }
         }
     }
     
     // Saves a tour
-    public void saveTour(int index, Tour tour) {
-        tours[index] = tour;
+    public saveTour(index: number, tour: Tour) {
+        this.tours[index] = tour;
     }
     
     // Gets a tour from population
-    public Tour getTour(int index) {
-        return tours[index];
+    public getTour(index: number) {
+        return this.tours[index];
     }
 
     // Gets the best tour in the population
-    public Tour getFittest() {
-        Tour fittest = tours[0];
+    public get Fittest(): Tour {
+         let fittest = this.tours[0];
         // Loop through individuals to find fittest
-        for (int i = 1; i < populationSize(); i++) {
-            if (fittest.getFitness() <= getTour(i).getFitness()) {
-                fittest = getTour(i);
+        for (let i = 1; i < this.populationSize(); i++) {
+            if (fittest.getFitness() <= this.getTour(i).getFitness()) {
+                fittest = this.getTour(i);
             }
         }
         return fittest;
     }
 
     // Gets population size
-    public int populationSize() {
-        return tours.length;
+    public populationSize() {
+        return this.tours.length;
     }
 }
