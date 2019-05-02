@@ -1,5 +1,4 @@
-import { Tour } from './tour';
-import { TourManager } from './TourManager';
+import { TourManager, Tour } from './TourManager';
 
 export class Population {
     tours: Tour[] = [];

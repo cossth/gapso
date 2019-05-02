@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { GeneticService } from './services/genetic.service';
 import { Population } from './models/population.model';
-import { TourManager } from './models/TourManager';
+import { TourManager, Tour } from './models/TourManager';
 import { City } from './models/city.model';
 import { BehaviorSubject } from 'rxjs';
-import { Tour } from './models/tour';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +14,7 @@ export class AppComponent {
   generations: Population[] = [];
   p$ = new BehaviorSubject<Population>(null);
   viewP: Population;
+  showCities = false;
   constructor(private ga: GeneticService, ) {
     TourManager.AddCity(new City(60, 200));
     TourManager.AddCity(new City(180, 200));

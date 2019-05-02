@@ -1,7 +1,14 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-auto sidebar bg-light px-0">
-            <div class="btn btn-primary btn-block mb-3" style="border-radius: 0;" (click)="evolve()">Evolve</div>
+            <div class="btn btn-primary btn-block mb-3"  (click)="evolve()">Evolve</div>
+
+            <h6>Display Cities</h6>
+            <div class="btn-group btn-block mb-3" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary" [class.btn-success]="showCities" (click)="showCities = true">Show</button>
+                <button type="button" class="btn btn-secondary" [class.btn-danger]="!showCities" (click)="showCities = false">Hide</button>
+            </div>
+
             <div class="list-group list-group-flush bg-light">
                 <a href="#" class="list-group-item cursor-po" *ngFor="let g of generations.reverse(); let i = index"
                     [class.active]="g === viewP" (click)="viewP = g">Generation {{generations.length - i- 1}}</a>
@@ -30,7 +37,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <table class="table table-striped table-sm">
+                            <table class="table table-striped table-sm" *ngIf="showCities">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>

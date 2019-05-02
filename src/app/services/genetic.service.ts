@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Population } from '../models/population.model';
-import { Tour } from '../models/tour';
-import { TourManager } from '../models/TourManager';
+import { Tour } from '../models/TourManager';
 
 @Injectable({
     providedIn: 'root'
