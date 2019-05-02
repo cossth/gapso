@@ -4,13 +4,13 @@ export class City {
     y : number;
         
     constructor( x: number, y: number){
-        if (x == undefined){
+        if (x === undefined){
             this.x = Math.random()*200;
         }
         else{
             this.x = x;
         }
-        if (y == undefined){
+        if (y === undefined){
             this.y = Math.random()*200; 
         }
         else{

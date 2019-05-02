@@ -1,21 +1,65 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-auto sidebar bg-light px-0">
+            <div class="btn btn-primary btn-block mb-3" style="border-radius: 0;" (click)="evolve()">Evolve</div>
+            <div class="list-group list-group-flush bg-light">
+                <a href="#" class="list-group-item cursor-po" *ngFor="let g of generations.reverse(); let i = index"
+                    [class.active]="g === viewP" (click)="viewP = g">Generation {{generations.length - i- 1}}</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container-fluid pt-5">
+                <div class="row" *ngIf="viewP">
+                    <div class="col py-3 px-1" *ngFor="let tour of viewP.tours; trackBy:trackTour">
+                        <div class="card animCard">
+                            <img src="https://is4-ssl.mzstatic.com/image/thumb/Purple128/v4/54/4f/9b/544f9b86-5073-2793-f825-699c9f547375/AppIcon-1x_U007emarketing-0-85-220-0-5.png/246x0w.jpg"
+                                class="card-img-top" alt="...">
+                            <div class="card-body row">
+                                <div class="col px-0">
+                                    <table class="table mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Fitness</td>
+                                                <td>{{tour.Fitness  | number : '1.8-8'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Distance</td>
+                                                <td>{{tour.Distance  | number : '1.2-2'}} Km</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">X</th>
+                                        <th scope="col">Y</th>
+                                        <th scope="col" class="text-right">Distance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let t of tour.cities; let i = index; trackBy: trackCity"
+                                        class="animTrack">
+                                        <th scope="row">{{i + 1}}</th>
+                                        <td>{{t?.X}}</td>
+                                        <td>{{t?.Y}}</td>
+                                        <td class="text-right">{{Dist(tour.cities,i -1 ,i) | number : '1.2-2'}} Km</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="animTrack">
+                                        <th colspan="3">Σ D</th>
+                                        <td class="text-right">{{tour.Distance  | number : '1.2-2'}} Km</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
 <router-outlet></router-outlet>

@@ -1,62 +1,66 @@
 import { City } from "./city.model";
+import { TourManager } from './TourManager';
 
 export class Tour {
-    private tour: City[] = [];
-    // Cache
+    public cities: City[] = [];
     private fitness = 0;
     private distance = 0;
 
-    // Constructs a blank tour
-    constructor(private tourManager: TourManager, tour: City[] = undefined) {
-        this.tour = tour;
-    }
-
-    public generateIndividual() {
-        for (let cityIndex = 0; cityIndex < this.tourManager.CityCount; cityIndex++) {
-            this.setCity(cityIndex, this.tourManager.GetCity(cityIndex));
+    constructor(tour: City[] = undefined) {
+        if (tour === undefined) {
+            for (let i = 0; i < TourManager.CityCount; i++) {
+                this.cities.push(null);
+            }
+        } else {
+            this.cities = tour;
         }
     }
 
-    // Gets a city from the tour
+    public generateIndividual() {
+        for (let cityIndex = 0; cityIndex < TourManager.CityCount; cityIndex++) {
+            this.setCity(cityIndex, TourManager.GetCity(cityIndex));
+        }
+        this.cities = this.shuffle(this.cities);
+    }
+    private shuffle(arr: City[]) {
+        var i: number;
+        var j: number;
+        var temp: City;
+        for (i = arr.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        return arr;
+    };
+
     public getCity(tourPosition: number): City {
-        return this.tour[tourPosition];
+        return this.cities[Math.floor(tourPosition)%this.tourSize];
     }
 
-    // Sets a city in a certain position within a tour
     public setCity(tourPosition: number, city: City) {
-        this.tour[tourPosition] = city;
-        // If the tours been altered we need to reset the fitness and distance
+        this.cities[tourPosition] = city;
         this.fitness = 0;
         this.distance = 0;
     }
 
-    // Gets the tours fitness
     public get Fitness() {
-        if (this.fitness == 0) {
+        if (this.fitness === 0) {
             this.fitness = 1 / this.Distance;
         }
         return this.fitness;
     }
 
-    // Gets the total distance of the tour
     public get Distance() {
-        if (this.distance == 0) {
+        if (this.distance === 0) {
             let tourDistance = 0;
-            // Loop through our tour's cities
             for (let cityIndex = 0; cityIndex < this.tourSize; cityIndex++) {
-                // Get city we're travelling from
                 let fromCity = this.getCity(cityIndex);
-                // City we're travelling to
-                let destinationCity: City;
-                // Check we're not on our tour's last city, if we are set our 
-                // tour's final destination city to our starting city
-                if (cityIndex + 1 < this.tourSize) {
-                    destinationCity = this.getCity(cityIndex + 1);
+                let destinationCity = this.getCity(cityIndex + 1);
+                if(destinationCity === null){
+                    console.log(this.cities);
                 }
-                else {
-                    destinationCity = this.getCity(0);
-                }
-                // Get the distance between the two cities
                 tourDistance += fromCity.distanceTo(destinationCity);
             }
             this.distance = tourDistance;
@@ -64,14 +68,12 @@ export class Tour {
         return this.distance;
     }
 
-    // Get number of cities on our tour
     public get tourSize() {
-        return this.tour.length;
+        return this.cities.length;
     }
 
-    // Check if the tour contains a city
     public containsCity(city: City) {
-        return this.tour.indexOf(city) !== -1;
+        return this.cities.indexOf(city) !== -1;
     }
 
     public toString(): string {
@@ -84,18 +86,3 @@ export class Tour {
 }
 
 
-export class TourManager {
-    private readonly destinationCities: City[] = [];
-    public AddCity(city: City) {
-        this.destinationCities.push(city);
-    }
-    public CreateTour(tour: City[] = []) {
-       return new Tour(this, tour);
-    }
-    public GetCity(index: number) {
-        return this.destinationCities[index];
-    }
-    public get CityCount(): number {
-        return this.destinationCities.length;
-    }
-}
