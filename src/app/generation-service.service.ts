@@ -44,7 +44,7 @@ export class GenerationService {
     this.displayGen = this.generations.length - 1;
   }
   
-  private _showCities = true;
+  private _showCities = false;
   public get showCities() : boolean {
     return this._showCities;
   }
@@ -68,7 +68,7 @@ export class GenerationService {
     this._viewPop = v;
   }
   
-  private _showBtn : boolean;
+  private _showBtn = true;
   public get showBtn() : boolean {
     return this._showBtn;
   }
