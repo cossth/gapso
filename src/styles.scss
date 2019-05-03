@@ -1,9 +1,11 @@
+@import "assets/bs.css";
 .sidebar {
     width: 200px;
     background: #fbfbfb;
 }
 .btn{
     border-radius: 0;
+    margin-right: 0;
 }
 @keyframes Track {
     from {
@@ -28,6 +30,10 @@
 .animTrack {
     animation-name: Track;
     animation-duration: 1s;
+    tr,td{
+    animation-name: Track;
+    animation-duration: 1s;
+    }
 }
 
 .animCard {

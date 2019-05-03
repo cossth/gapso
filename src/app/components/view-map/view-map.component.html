@@ -1,0 +1,34 @@
+<!-- <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+            <svg width="100%" height="100%"  >
+                <g id="UrTavla" *ngFor="let city of cities; let i = index">
+                    <circle [attr.cx]="40 + city.X*2" [attr.cy]="40 + city.Y*2" r="15" [attr.fill]="getColor(i)">
+                    </circle>
+                    <text [attr.x]="40 + city.X*2" [attr.y]="40 + city.Y*2" text-anchor="middle" stroke="#fff" stroke-width="1px" dy=".3em">{{i + 1}}</text>
+                  </g>
+              </svg>
+        </div>
+        <div class="col-12">{{ tour | async | json }}</div>
+      </div>
+</div> -->
+
+<div class="map-container" #mc>
+  <div class="main-map" [ngStyle]="{ 'width.px': w, 'height.px': w}">
+    <div class="path"></div>
+    <div [class]="'dot city' + i" *ngFor="let city of cities; let i = index"
+      [ngStyle]="{'left': city.X/2 + '%', 'top': city.Y/2  + '%', 'background-image': 'linear-gradient(180deg, #FFFFFF 8%, ' + getColor(i)+ ' 100%)'}">
+      <div class="name">
+        {{i + 1}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="input-group">
+  <input class="form-control" type="number" min="0" max="4000" [(ngModel)]="travelTime" placeholder="Time MS">
+  <div class="input-group-append">
+    <div class="btn btn-warning" (click)="next()">Next</div>
+    <div class="btn btn-warning" (click)="play()">Auto</div>
+    <div class="btn btn-warning" (click)="PathPos = 0">Home</div>
+  </div>
+</div>
