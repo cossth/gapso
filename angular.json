@@ -28,7 +28,10 @@
               "src/web.config"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/chartist/dist/chartist.css",
+              "src/assets/scss/style.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true

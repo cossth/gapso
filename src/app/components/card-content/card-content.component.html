@@ -1,0 +1,46 @@
+<div class="card animCard" *ngIf="tour | async">
+    <graph-pop [pop]="_p"></graph-pop>
+  <div class="card-body p-0" *ngIf="gs.showBtn">
+    <div class="btn-group btn-block " role="group" aria-label="Basic example">
+      <a class="btn btn-primary btn-block btn-sm" [routerLink]="['/view', _g, _p]">View on Map</a>
+      <button type="button" style="width: 3rem" class="btn btn-block btn-secondary btn-sm" (click)="gs.viewPop = _p" *ngIf="gs.viewPop !== _p">></button>
+      <button type="button" style="width: 3rem" class="btn btn-block btn-danger btn-sm" (click)="gs.viewPop = -1" *ngIf="gs.viewPop === _p">X</button>
+    </div>
+    <table class="table mb-0">
+      <tbody>
+        <tr>
+          <td>Fitness</td>
+          <td>{{(tour | async).Fitness  | number : '1.8-8'}}</td>
+        </tr>
+        <tr>
+          <td>Distance</td>
+          <td>{{(tour | async).Distance  | number : '1.2-2'}} Km</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <table class="table table-striped table-sm" *ngIf="gs.showCities">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">X</th>
+        <th scope="col">Y</th>
+        <th scope="col" class="text-right">Distance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of (tour | async).cities;trackBy: trackCity;let i = index" class="animTrack">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{t?.X}}</td>
+        <td>{{t?.Y}}</td>
+        <td class="text-right">{{Dist((tour | async).cities,i -1 ,i) | number : '1.2-2'}} Km</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="3">Σ D</th>
+        <td class="text-right">{{(tour | async).Distance  | number : '1.2-2'}} Km</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

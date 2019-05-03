@@ -11,47 +11,28 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./genetic.component.scss']
 })
 export class GeneticComponent {
-  viewP: Population;
-  showCities = false;
-  pop = -1;
-  private ge = 0;
+   viewP: Population;
   j;
-  public get curGen(){
-    return this.ge;
-  }
-  public set curGen(i: number){
-    this.viewP = this.gs.generations[i];
-    this.ge = i;
-  }
+  genCount = 0;
   constructor(public gs: GenerationService, route: ActivatedRoute, router: Router) {
     route.paramMap.subscribe( a =>{
       let gn  = a.get('gen');
       if(gn == 'latest'){
-        this.curGen = gs.generations.length - 1;
+        this.gs.displayGen = gs.generations.length - 1;
       }else{
-        this.curGen = Number.parseInt(gn,10);
+        this.gs.displayGen = Number.parseInt(gn,10);
       }
     })
     this.gs.p$.subscribe(a => {
       if (gs.generations[gs.generations.length - 1] != a) {
         this.gs.generations.push(a);
-        this.curGen = gs.generations.length - 1;
         router.navigateByUrl('/genetic/gen/latest');
       }
       this.viewP = a;
     })
   }
-  trackCity(c: City) {
-    return "" + c.X + " " + c.Y;
-  }
   trackTour(t: Tour) {
     return ""+ t.Distance+" " + t.Fitness;
-  }
-  Dist(c: City[], i: number, j: number) {
-    if (c[i] && c[j]) {
-      return c[i].distanceTo(c[j]);
-    }
-    return 0;
   }
   evolve(){
     this.gs.evolve();

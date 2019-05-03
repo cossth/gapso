@@ -41,5 +41,39 @@ export class GenerationService {
   evolve() {
     var pop = this.ga.evolvePopulation(this.p$.getValue());
     this.p$.next(pop);
+    this.displayGen = this.generations.length - 1;
   }
+  
+  private _showCities = true;
+  public get showCities() : boolean {
+    return this._showCities;
+  }
+  public set showCities(v : boolean) {
+    this._showCities = v;
+  }
+  
+  private _displayGen = 0;
+  public get displayGen() : number {
+    return this._displayGen === -1?0:this._displayGen;
+  }
+  public set displayGen(v : number) {
+    this._displayGen = v;
+  }
+  
+  private _viewPop = -1;
+  public get viewPop() : number {
+    return this._viewPop;
+  }
+  public set viewPop(v : number) {
+    this._viewPop = v;
+  }
+  
+  private _showBtn : boolean;
+  public get showBtn() : boolean {
+    return this._showBtn;
+  }
+  public set showBtn(v : boolean) {
+    this._showBtn = v;
+  }
+  
 }
