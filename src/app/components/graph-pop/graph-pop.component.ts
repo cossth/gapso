@@ -20,9 +20,11 @@ export class GraphPopComponent implements OnInit {
   }
   init() {
     if (this.gs.generations[0].tours[this._pop]) {
-      this.lineChartLabels = this.gs.generations.map((a, i, b) => {
-        return '' + i;
-      });
+      
+      // this.lineChartLabels = this.gs.generations.map((a, i, b) => {
+      //   return '' + i;
+      // });
+      
       this.lineChartData = [
         {
           data: this.gs.generations.map((a, i, b) => {
@@ -36,7 +38,17 @@ export class GraphPopComponent implements OnInit {
         },
       ]
     }
-    console.log(this.lineChartLabels);
+    if(this.lineChartLabels.length < this.gs.generations.length){
+      while(this.lineChartLabels.length < this.gs.generations.length){
+        this.lineChartLabels.push(`G${this.lineChartLabels.length}`);
+      }
+    }else if(this.lineChartLabels.length > this.gs.generations.length){
+      while(this.lineChartLabels.length > this.gs.generations.length){
+        this.lineChartLabels.pop();
+      }
+    }
+    // this.lineChartLabels = this.gs.generations.map((val,index)=> 'G' +index);
+    // console.log(this.lineChartLabels);
     console.log(this.lineChartData);
   }
   upd() {
@@ -54,7 +66,7 @@ export class GraphPopComponent implements OnInit {
     { data: [0, 1, 2], label: 'Fitness', yAxisID: 'y-axis-1', }
   ];
 
-  public lineChartLabels: Array<any> = [''];
+  public lineChartLabels = this.gs.generations.map((val,index)=> 'G' +index);
 
   public lineChartOptions: any = {
     responsive: true,

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-auto sidebar bg-light px-0">
+    <div class="col-lg-2 col-md-3 sidebar bg-light px-0">
       <div class="btn btn-primary btn-block mb-3" (click)="evolve()">Evolve</div>
       <h6>Display Cities</h6>
       <div class="btn-group btn-block mb-3" role="group" aria-label="Basic example">
@@ -18,36 +18,33 @@
           (click)="gs.showBtn = false">Hide</button>
       </div>
       <h6>Generate</h6>
-      <input type="range" min="1" max="500" class="form-control" [(ngModel)]="genCount">
-
-
-      <button type="button" class="btn btn-secondary btn-block" [class.btn-success]="gs.showBtn">Generate
-        ({{genCount}})</button>
+      <input type="range" min="1" max="500" value="10" class="form-control" #gc>
+      <button type="button" class="btn btn-secondary btn-block" [class.btn-success]="gs.showBtn" (click)="generate(gc.value)">Generate ({{gc.value}})</button>
       <br>
       <div class="btn-group btn-block mb-3" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-secondary btn-block btn-sm" [class.btn-success]="j"
           (click)="auto()">Automatic</button>
         <button type="button" class="btn btn-secondary btn-block" [class.btn-danger]="!j" (click)="stop()">Stop</button>
       </div>
-      <select class="custom-select" id="inputGroupSelect01">
-        <option *ngFor="let g of gs.generations; let i = index" [value]="i">Generation {{gs.generations.length - i - 1}}
+      <select class="custom-select" (change)="navigate(genNav.value)" #genNav >
+        <option *ngFor="let g of gs.generations; let i = index" [value]="i" [selected]="gs.displayGen === i" >Generation {{i }}
         </option>
       </select>
-      <div class="list-group list-group-flush bg-light">
+      <!-- <div class="list-group list-group-flush bg-light">
         <a [routerLink]="'/genetic/gen/' + (gs.generations.length - i- 1)" class="list-group-item cursor-po"
-          *ngFor="let g of gs.generations; let i = index"
+          *ngFor="let g of gs.generations.reverse(); let i = index"
           [class.active]="gs.displayGen === gs.generations.length - i- 1"
           (click)="gs.displayGen = gs.generations.length - i- 1">Generation {{gs.generations.length - i- 1}}</a>
-      </div>
+      </div> -->
     </div>
-    <div class="col py-2">
+    <div class="col-lg-10 col-md-9 py-2">
       <graph-pop [pop]="0" [height]="'250px'"></graph-pop>
       <div class="container-fluid">
         <div class="row">
           <div class="col">
             <div class="container-fluid pt-5">
               <div class="row" *ngIf="viewP">
-                <div class="col-md-2 py-3 px-1" *ngFor="let tour of viewP.tours;trackBy:trackTour;let i = index">
+                <div class="col-sm-6 col-md-4 col-lg-3 py-3 px-1" *ngFor="let tour of viewP.tours;trackBy:trackTour;let i = index">
                   <app-card-content [gen]="gs.displayGen" [pop]="i"></app-card-content>
                 </div>
               </div>

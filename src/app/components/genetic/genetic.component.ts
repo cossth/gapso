@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Population } from 'src/app/models/population.model';
-import { TourManager, Tour } from 'src/app/models/TourManager';
-import { City } from 'src/app/models/city.model';
+import { Tour } from 'src/app/models/TourManager';
 import { GenerationService } from 'src/app/generation-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -10,17 +9,19 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './genetic.component.html',
   styleUrls: ['./genetic.component.scss']
 })
-export class GeneticComponent {
-   viewP: Population;
+export class GeneticComponent implements OnDestroy {
+  ngOnDestroy(): void {
+    clearTimeout(this.j);
+  }
+  viewP: Population;
   j;
-  genCount = 0;
-  constructor(public gs: GenerationService, route: ActivatedRoute, router: Router) {
-    route.paramMap.subscribe( a =>{
-      let gn  = a.get('gen');
-      if(gn == 'latest'){
+  constructor(public gs: GenerationService, route: ActivatedRoute, private router: Router) {
+    route.paramMap.subscribe(a => {
+      let gn = a.get('gen');
+      if (gn == 'latest') {
         this.gs.displayGen = gs.generations.length - 1;
-      }else{
-        this.gs.displayGen = Number.parseInt(gn,10);
+      } else {
+        this.gs.displayGen = Number.parseInt(gn, 10);
       }
     })
     this.gs.p$.subscribe(a => {
@@ -32,12 +33,12 @@ export class GeneticComponent {
     })
   }
   trackTour(t: Tour) {
-    return ""+ t.Distance+" " + t.Fitness;
+    return "" + t.Distance + " " + t.Fitness;
   }
-  evolve(){
+  evolve() {
     this.gs.evolve();
   }
-  
+
   auto() {
     this.gs.evolve();
     this.j = setTimeout(() => {
@@ -47,5 +48,27 @@ export class GeneticComponent {
   stop() {
     clearInterval(this.j);
     this.j = undefined;
+  }
+  navigate(i) {
+    console.log(i);
+    this.router.navigateByUrl('/genetic/gen/' + i);
+  }
+  generate(i: number) {
+    let t = this.gs.generations[0];
+    this.gs.generations = [];
+    this.gs.p$.next(t);
+    this.evauto(i);
+  }
+  evauto(i: number) {
+    this.gs.evolve();
+    this.j = setTimeout(() => {
+      if (this.gs.generations.length <= i) {
+        this.evauto(i);
+      }
+    }, 100);
+  }
+
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
